@@ -40,7 +40,7 @@ class Game extends Component {
           ...{
             [c]: {
               background:
-                "radial-gradient(circle, #D3D3D3 36%, transparent 50%)",
+                "radial-gradient(circle, #fffc00 36%, transparent 50%)",
               borderRadius: "30%"
             }
           },

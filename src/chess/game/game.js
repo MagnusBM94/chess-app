@@ -17,7 +17,7 @@ class Game extends Component {
     // Brikken som er valgt
     square: "",
     // array med tidligere trekk
-    history: []
+    history: [],
   };
 
   componentDidMount() {
@@ -27,7 +27,7 @@ class Game extends Component {
   // Markerer feltet som er valgt på brettet
   removeHighlightSquare = () => {
     this.setState(({ pieceSquare, history }) => ({
-      squareStyles: squareStyling({ pieceSquare, history })
+      squareStyles: squareStyling({ pieceSquare, history }),
     }));
   };
 
@@ -41,20 +41,20 @@ class Game extends Component {
             [c]: {
               background:
                 "radial-gradient(circle, #fffc00 36%, transparent 50%)",
-              borderRadius: "30%"
-            }
+              borderRadius: "30%",
+            },
           },
           ...squareStyling({
             history: this.state.history,
-            pieceSquare: this.state.pieceSquare
-          })
+            pieceSquare: this.state.pieceSquare,
+          }),
         };
       },
       {}
     );
 
     this.setState(({ squareStyles }) => ({
-      squareStyles: { ...squareStyles, ...highlightStyles }
+      squareStyles: { ...squareStyles, ...highlightStyles },
     }));
   };
 
@@ -63,7 +63,7 @@ class Game extends Component {
     let move = this.game.move({
       from: sourceSquare,
       to: targetSquare,
-      promotion: "q" // Promoterer alltid til dronning, da det er mest hensiktsmessig
+      promotion: "q", // Promoterer alltid til dronning, da det er mest hensiktsmessig
     });
 
     // Hvis trekket er ulovlig
@@ -71,15 +71,15 @@ class Game extends Component {
     this.setState(({ history, pieceSquare }) => ({
       fen: this.game.fen(),
       history: this.game.history({ verbose: true }),
-      squareStyles: squareStyling({ pieceSquare, history })
+      squareStyles: squareStyling({ pieceSquare, history }),
     }));
   };
 
   // liste over mulige trekk for feltet
-  onMouseOverSquare = square => {
+  onMouseOverSquare = (square) => {
     let moves = this.game.moves({
       square: square,
-      verbose: true
+      verbose: true,
     });
 
     // Avslutter sjekk hvis det ikke er noen mulige trekk for brikken
@@ -93,28 +93,28 @@ class Game extends Component {
     this.highlightSquare(square, squaresToHighlight);
   };
 
-  onMouseOutSquare = square => this.removeHighlightSquare(square);
+  onMouseOutSquare = (square) => this.removeHighlightSquare(square);
 
-   // central squares get diff dropSquareStyles
-//   onDragOverSquare = square => {
-//     this.setState({
-//       dropSquareStyle:
-//         square === "e4" || square === "d4" || square === "e5" || square === "d5"
-//           ? { backgroundColor: "cornFlowerBlue" }
-//           : { boxShadow: "inset 0 0 1px 4px rgb(255, 255, 0)" }
-//     });
-//   };
+  // central squares get diff dropSquareStyles
+  //   onDragOverSquare = square => {
+  //     this.setState({
+  //       dropSquareStyle:
+  //         square === "e4" || square === "d4" || square === "e5" || square === "d5"
+  //           ? { backgroundColor: "cornFlowerBlue" }
+  //           : { boxShadow: "inset 0 0 1px 4px rgb(255, 255, 0)" }
+  //     });
+  //   };
 
-  onSquareClick = square => {
+  onSquareClick = (square) => {
     this.setState(({ history }) => ({
       squareStyles: squareStyling({ pieceSquare: square, history }),
-      pieceSquare: square
+      pieceSquare: square,
     }));
 
     let move = this.game.move({
       from: this.state.pieceSquare,
       to: square,
-      promotion: "q" // Promoterer alltid til dronning, da det er mest hensiktsmessig
+      promotion: "q", // Promoterer alltid til dronning, da det er mest hensiktsmessig
     });
 
     // ulovlig trekk
@@ -123,13 +123,13 @@ class Game extends Component {
     this.setState({
       fen: this.game.fen(),
       history: this.game.history({ verbose: true }),
-      pieceSquare: ""
+      pieceSquare: "",
     });
   };
 
-  onSquareRightClick = square =>
+  onSquareRightClick = (square) =>
     this.setState({
-      squareStyles: { [square]: { backgroundColor: "deepPink" } }
+      squareStyles: { [square]: { backgroundColor: "deepPink" } },
     });
 
   render() {
@@ -144,7 +144,7 @@ class Game extends Component {
       dropSquareStyle,
       onDragOverSquare: this.onDragOverSquare,
       onSquareClick: this.onSquareClick,
-      onSquareRightClick: this.onSquareRightClick
+      onSquareRightClick: this.onSquareRightClick,
     });
   }
 }
@@ -162,7 +162,7 @@ export default function game() {
           dropSquareStyle,
           onDragOverSquare,
           onSquareClick,
-          onSquareRightClick
+          onSquareRightClick,
         }) => (
           <Chessboard
             id="Game"
@@ -173,7 +173,7 @@ export default function game() {
             onMouseOutSquare={onMouseOutSquare}
             boardStyle={{
               borderRadius: "5px",
-              boxShadow: `0 5px 15px rgba(0, 0, 0, 0.5)`
+              boxShadow: `0 5px 15px rgba(0, 0, 0, 0.5)`,
             }}
             squareStyles={squareStyles}
             dropSquareStyle={dropSquareStyle}
@@ -195,13 +195,13 @@ const squareStyling = ({ pieceSquare, history }) => {
     [pieceSquare]: { backgroundColor: "rgba(255, 255, 0, 0.4)" },
     ...(history.length && {
       [sourceSquare]: {
-        backgroundColor: "rgba(255, 255, 0, 0.4)"
-      }
+        backgroundColor: "rgba(255, 255, 0, 0.4)",
+      },
     }),
     ...(history.length && {
       [targetSquare]: {
-        backgroundColor: "rgba(255, 255, 0, 0.4)"
-      }
-    })
+        backgroundColor: "rgba(255, 255, 0, 0.4)",
+      },
+    }),
   };
 };
